@@ -22,19 +22,53 @@ jobs:
         with:
           token: ${{ secrets.DOCS_PAT }}
           fetch-depth: 0
+          path: base
 
-      - uses: mintlify/multirepo-action@main
-        with:
-          token: ${{ secrets.DOCS_PAT }}
-          subdirectory: docs
-          repos: |
-            - owner: always-further
-              repo: nono
-              subdirectory: docs
-            - owner: always-further
-              repo: nono-py
-              subdirectory: docs
-            - owner: always-further
-              repo: nono-ts
-              subdirectory: docs
-          target-branch: docs
+      - name: Clone sub-repos
+        env:
+          GH_TOKEN: ${{ secrets.DOCS_PAT }}
+        run: |
+          git clone --depth 1 https://x-access-token:${GH_TOKEN}@github.com/always-further/nono.git nono
+          git clone --depth 1 https://x-access-token:${GH_TOKEN}@github.com/always-further/nono-py.git nono-py
+          git clone --depth 1 https://x-access-token:${GH_TOKEN}@github.com/always-further/nono-ts.git nono-ts
+
+      - name: Aggregate docs
+        run: |
+          # Create output directory
+          mkdir -p output
+
+          # Copy base docs (introduction, quickstart, core, etc.)
+          cp -r base/docs/* output/
+
+          # Copy CLI docs from nono
+          cp -r nono/docs/cli output/
+
+          # Copy Python docs from nono-py
+          cp -r nono-py/docs/python output/
+
+          # Copy TypeScript docs from nono-ts
+          cp -r nono-ts/docs/typescript output/
+
+          # List what we have
+          echo "Aggregated docs structure:"
+          find output -type f -name "*.mdx" | head -50
+
+      - name: Push to docs branch
+        run: |
+          cd base
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Create or switch to docs branch
+          git checkout docs 2>/dev/null || git checkout -b docs
+
+          # Remove old content (except .git)
+          find . -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
+
+          # Copy aggregated content
+          cp -r ../output/* .
+
+          # Commit and push
+          git add -A
+          git diff --staged --quiet || git commit -m "Aggregate docs from sub-repos"
+          git push origin docs --force
