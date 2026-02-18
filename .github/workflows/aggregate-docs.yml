@@ -26,6 +26,7 @@ jobs:
       - uses: mintlify/multirepo-action@v0.15
         with:
           token: ${{ secrets.DOCS_PAT }}
+          subdirectory: docs
           repos: |
             - owner: always-further
               repo: nono
