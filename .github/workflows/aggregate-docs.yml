@@ -41,6 +41,7 @@ jobs:
 
           # Copy content from sub-repos
           cp -r nono/docs/cli output/
+          cp -r nono/docs/assets output/
           cp -r nono-py/docs/python output/
           cp -r nono-ts/docs/typescript output/
 
