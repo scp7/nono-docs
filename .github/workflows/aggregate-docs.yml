@@ -69,6 +69,9 @@ jobs:
           echo "Aggregated docs structure:"
           find output -type f -name "*.mdx" | sort
 
+      - name: Check internal links
+        run: bash base/.github/scripts/check-links.sh
+
       - name: Push to docs branch
         run: |
           cd base
