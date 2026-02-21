@@ -70,7 +70,14 @@ Copy `.github/workflows/docs-dispatch.yml.example` to each sub-repo as
 # Install Mintlify CLI
 npm i -g mintlify
 
+# Build a local aggregated docs tree from sibling repos
+./scripts/local-aggregate.sh
+
+# Validate internal links in the aggregated output
+./scripts/check-links.sh
+
 # Run local preview
+cd .local-aggregate/output
 mintlify dev
 ```
 
