@@ -5,14 +5,15 @@
   "logo": {
     "dark": "/logo/dark.svg",
     "light": "/logo/light.svg",
-    "height": 40
+    "height": 40,
+    "href": "https://nono.sh"
   },
   "favicon": "/logo/favicon.png",
   "colors": {
     "primary": "#6366F1"
   },
   "appearance": {
-    "default": "light"
+    "default": "system"
   },
   "navbar": {
     "links": [
@@ -156,7 +157,8 @@
   },
   "footer": {
     "socials": {
-      "github": "https://github.com/always-further/nono"
+      "github": "https://github.com/always-further/nono",
+      "website": "https://nono.sh"
     }
   }
 }
