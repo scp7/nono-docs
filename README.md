@@ -29,7 +29,7 @@ Unified documentation site for the Nono sandboxing ecosystem, built with [Mintli
                                  │
                     ┌────────────▼────────────┐
                     │  Mintlify               │
-                    │  docs.nono.sh           │
+                    │  nono.sh/docs           │
                     └─────────────────────────┘
 ```
 
